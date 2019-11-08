@@ -1,4 +1,4 @@
-#!/Users/Lynux2142/Documents/miniconda3/bin/python
+#!/sgoinfre/goinfre/Perso/lguiller/miniconda3/bin/python
 
 from sys import stdout
 
