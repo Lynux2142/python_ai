@@ -32,9 +32,19 @@ def main():
     prompt += '\n3: Print a recipe'
     prompt += '\n4: Print the cookbook'
     prompt += '\n5: Quit'
+    print(prompt)
     while (True):
-        print(prompt)
-        input('>> ')
+        try:
+            value = int(input('>> '))
+            assert (1 <= value <= 5)
+        except:
+            print('This option does not exist, please type the corresponding number.')
+            print('To exit, enter 5.')
+        else:
+            if (value == 5):
+                print('Cookbook closed.')
+                break
+            print(prompt)
 
 if __name__ == '__main__':
     main()
