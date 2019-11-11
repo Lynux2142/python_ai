@@ -1,20 +1,21 @@
 #!/bin/bash
 
-MINICONDA_DIR="$HOME/Documents/miniconda3"
-MINICONDA_PATH="$HOME/Documents/miniconda3/bin"
+CURRENT_DIR=`pwd`
+MINICONDA_DIR="/sgoinfre/goinfre/Perso/lguiller/miniconda3"
+MINICONDA_PATH="$MINICONDA_DIR/bin"
 EXPORT="export PATH=\"$MINICONDA_PATH:\$PATH\""
 
 function install()
 {
-	curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > miniconda3.sh
-	bash miniconda3.sh -b -p $MINICONDA_DIR
+	curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > $CURRENT_DIR/miniconda3.sh
+	bash $CURRENT_DIR/miniconda3.sh -b -p $MINICONDA_DIR
 	TEST=`grep -c "$EXPORT" $HOME/.zshrc`
 	if [ $TEST != "1" ]
 	then
 		echo $EXPORT >> $HOME/.zshrc
 	fi
 	export PATH="$MINICONDA_PATH:$PATH"
-	rm -f miniconda3.sh
+	rm -f $CURRENT_DIR/miniconda3.sh
 	echo "Python has been installed."
 }
 
