@@ -7,10 +7,10 @@ EXPORT="export PATH=\"$MINICONDA_PATH:\$PATH\""
 
 function install()
 {
-	curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > $CURRENT_DIR/miniconda3.sh
-	bash $CURRENT_DIR/miniconda3.sh -b -p $MINICONDA_DIR
+	curl -s https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > $CURRENT_DIR/miniconda3.sh
+	bash $CURRENT_DIR/miniconda3.sh -b -p $MINICONDA_DIR 1>/dev/null 2>/dev/null
 	TEST=`grep -c "$EXPORT" $HOME/.zshrc`
-	if [ $TEST != "1" ]
+	if [[ $TEST == "0" ]]
 	then
 		echo $EXPORT >> $HOME/.zshrc
 	fi
