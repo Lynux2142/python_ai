@@ -36,8 +36,7 @@ class Book():
             if (not len(self.recipes_list[recipe_type])):
                 print(f'There are not {recipe_type} recipe.')
             else:
-                for elem in self.recipes_list[recipe_type]:
-                    print(elem.name)
+                return ([elem.name for elem in self.recipes_list[recipe_type]])
     def add_recipe(self, recipe):
         try: assert(type(recipe) == Recipe)
         except: print(f'error: add_recipe param is {type(recipe)} it must be an instance of Recipe')
