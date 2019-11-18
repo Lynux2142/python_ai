@@ -1,25 +1,30 @@
 import numpy as np
+from loading import ft_progress
 
-def calc_mean(array, x, y, kernel):
-    shape = np.shape(array)
-    newpixel = np.zeros(3)
-    newarray = np.zeros((3, 3, 3))
-    for i in range(-1, 1, 1):
-        for j in range(-1, 1, 1):
-            if (i >= 0 and i < shape[0] and j >= 0 and j < shape[1]):
-                newarray[i + 1, j + 1] = (array[y-i, x-j] * kernel[i + 1, j + 1])
-    rsum = np.sum([value[0] for value in np.ndindex(newarray.shape[:2])]) / np.sum(kernel)
-    gsum = np.sum([value[1] for value in np.ndindex(newarray.shape[:2])]) / np.sum(kernel)
-    bsum = np.sum([value[2] for value in np.ndindex(newarray.shape[:2])]) / np.sum(kernel)
+def calc_blur(array, kernel):
+    tmp_array = array * kernel
+    rsum = np.sum(tmp_array[:,:,0]) / (np.sum(kernel) / 3.0)
+    gsum = np.sum(tmp_array[:,:,1]) / (np.sum(kernel) / 3.0)
+    bsum = np.sum(tmp_array[:,:,2]) / (np.sum(kernel) / 3.0)
     return ([rsum, gsum, bsum])
 
+def browse_pixels(array, kernel, size):
+    new_array = np.zeros(np.shape(array))
+    for y in ft_progress(range(len(array))):
+        for x in range(len(array[0])):
+            if (y - size >= 0 and y + size < len(array) and x - size >= 0 and x + size < len(array[0])):
+                new_array[y, x] = calc_blur(array[y-size:y+size + 1, x-size:x+size + 1], kernel)
+    return (new_array)
+
 class AdvancedFilter:
-    def mean_blur(array):
-        kernel = np.ones((3, 3))
-        kernel2 = np.array([[1, 2, 1], [2, 4, 2], [1, 2, 1]])
-        for y, row in enumerate(array):
-            for x, pixel in enumerate(row):
-                array[y, x] = calc_mean(array, x, y, kernel2)
-        return (array)
-    def gaussian_blur(array):
-        pass
+    def mean_blur(array, size=1):
+        kernel = np.ones((1 + 2 * size, 1 + 2 * size, 3))
+        for i in range(size):
+            kernel[i:-i,i:-i] *= 2.0
+        return (browse_pixels(array, kernel, size))
+    def gaussian_blur(array, size=1):
+        kernel = np.ones((1 + 2 * size, 1 + 2 * size, 3))
+        for i in range(size + 1):
+            kernel[i:-i,:] *= 2.0
+            kernel[:,i:-i] *= 2.0
+        return (browse_pixels(array, kernel, size))
