@@ -1,7 +1,7 @@
 import numpy as np
 from loading import ft_progress
 
-def calc_blur(array, kernel, gap):
+def calc_blur(array, kernel):
     tmp_array = array * kernel
     rsum = np.sum(tmp_array[:,:,0]) / (np.sum(kernel) / 3.0)
     gsum = np.sum(tmp_array[:,:,1]) / (np.sum(kernel) / 3.0)
@@ -23,7 +23,7 @@ def browse_pixels(array, kernel, size):
             if (x + size >= len(array[0]) - 1):
                 gapx[1] = -(x + size - len(array[0]) + 1)
             resize_kernel = kernel[gapy[0] if (gapy[0]) else None:gapy[1] if (gapy[1]) else None,gapx[0] if (gapx[0]) else None:gapx[1] if (gapx[1]) else None]
-            new_array[y, x] = calc_blur(array[y-size+gapy[0]:y+size+1+gapy[1], x-size+gapx[0]:x+size+1+gapx[1]], resize_kernel, gapy)
+            new_array[y, x] = calc_blur(array[y-size+gapy[0]:y+size+1+gapy[1], x-size+gapx[0]:x+size+1+gapx[1]], resize_kernel)
     return (new_array)
 
 class AdvancedFilter:
