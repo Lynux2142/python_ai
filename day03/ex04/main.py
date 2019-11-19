@@ -5,9 +5,9 @@ from AdvancedFilter import AdvancedFilter as AF
 
 def main():
     img = IP()
-    array = img.load('./photo2.png')
+    array = img.load('./42AI.png')
     img.display(array)
-    img.display(AF.gaussian_blur(array, 10))
+    img.display(AF.mean_blur(array, 10))
     print()
 
 if __name__ == '__main__':
