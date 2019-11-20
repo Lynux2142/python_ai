@@ -9,7 +9,9 @@ def ft_progress(listy):
         value = i + 1
         perc = int(float(value) / len(listy) * 100.0)
         progress = '=' * int(float(perc) / 100.0 * 50.0) + ('>' if (perc < 100) else '')
-        stdout.write(f"\r ETA: (?) [{perc:>3}%] [{progress:<50}] {value}/{len(listy)} | elapsed time {round((time() - begin), 2):>4}s")
+        actual_time = round((time() - begin), 2)
+        eta_time = int(round(actual_time * (100 - perc) / (perc if (perc) else 1), 0))
+        stdout.write(f"\r ETA: ({eta_time:>4}s) [{perc:>3}%] [{progress:<50}] {value}/{len(listy)} | elapsed time {actual_time}s")
         yield i
 
 def main():
