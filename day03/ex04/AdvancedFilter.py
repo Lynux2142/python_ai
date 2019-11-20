@@ -7,11 +7,13 @@ def calc_blur(array, kernel):
 
 def browse_pixels(array, kernel, size):
     new_array = np.zeros(np.shape(array))
-    for y in ft_progress(range(len(array))):
-        for x in range(len(array[0])):
+    length = array.shape[0]
+    width = array.shape[1]
+    for y in ft_progress(range(length)):
+        for x in range(width):
 
-            gapy = [np.abs(y - size) if (y - size < 0) else 0, -(y + size - len(array) + 1) if (y + size >= len(array) - 1) else 0]
-            gapx = [np.abs(x - size) if (x - size < 0) else 0, -(x + size - len(array[0]) + 1) if (x + size >= len(array[0]) - 1) else 0]
+            gapx = [np.abs(x - size) if (x - size < 0) else 0, -(x + size - width + 1) if (x + size >= width - 1) else 0]
+            gapy = [np.abs(y - size) if (y - size < 0) else 0, -(y + size - length + 1) if (y + size >= length - 1) else 0]
 
             resize_kernel = kernel[gapy[0] if (gapy[0]) else None:gapy[1] if (gapy[1]) else None, gapx[0] if (gapx[0]) else None:gapx[1] if (gapx[1]) else None]
             new_array[y, x] = calc_blur(array[y - size + gapy[0]:y + size + 1 + gapy[1], x - size + gapx[0] : x + size + 1 + gapx[1]], resize_kernel)
@@ -25,8 +27,7 @@ class AdvancedFilter:
     def gaussian_blur(array, size = 1, sigma = 1):
         kernel = np.ones((1 + 2 * size, 1 + 2 * size, 3))
         maxi = 2 * size ** 2
-        for y in range(-size, size + 1):
-            for x in range(-size, size + 1):
-                kernel[y + size, x + size] = np.exp(-(((x ** 2) / (2 * sigma ** 2)) + ((y ** 2) / (2 * sigma ** 2))))
+        for y in range(size * 2 + 1):
+            for x in range(size * 2 + 1):
+                kernel[y, x] = np.exp(-((((x - size) ** 2) / (2 * sigma ** 2)) + (((y - size) ** 2) / (2 * sigma ** 2))))
         return (browse_pixels(array, kernel, size))
-
