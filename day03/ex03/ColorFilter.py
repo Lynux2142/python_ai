@@ -1,4 +1,5 @@
 import numpy as np
+from loading import ft_progress
 
 class ColorFilter:
     def invert(array):
@@ -8,18 +9,21 @@ class ColorFilter:
     def to_green(array):
         return (array * [0.0, 1.0, 0.0])
     def to_red(array):
-        return (np.array(list(map(lambda x: list(map(lambda y: [min(y[0] + 1.0, 1.0), y[1], y[2]], x)), array))))
+        new_array = np.zeros(array.shape)
+        for y in ft_progress(range(array.shape[0])):
+            for x, pixel in enumerate(array[y]):
+                new_array[y, x] = [min(pixel[0] + 1.0, 1.0), pixel[1], pixel[2]]
+        return (new_array)
     def celluloid(array):
         pass
     def to_grayscale(array, filter='w'):
-        if (filter == 'weighted' or filter == 'w'):
-            for y, row in enumerate(array):
-                for x, pixel in enumerate(row):
+        new_array = np.zeros(array.shape)
+        for y in ft_progress(range(array.shape[0])):
+            for x, pixel in enumerate(array[y]):
+                if (filter == 'weighted' or filter == 'w'):
                     value = np.sum((pixel * np.array([0.299, 0.587, 0.114])))
-                    array[y, x] = [value, value, value]
-        elif (filter == 'mean' or filter == 'm'):
-            for y, row in enumerate(array):
-                for x, pixel in enumerate(row):
+                elif (filter == 'mean' or filter == 'm'):
                     value = np.sum(pixel) / 3.0
-                    array[y, x] = [value, value, value]
-        return (array)
+                new_array[y, x] = [value, value, value]
+        print()
+        return (new_array)
