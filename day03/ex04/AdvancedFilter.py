@@ -29,5 +29,5 @@ class AdvancedFilter:
         maxi = 2 * size ** 2
         for y in range(size * 2 + 1):
             for x in range(size * 2 + 1):
-                kernel[y, x] = np.exp(-((((x - size) ** 2) / (2 * sigma ** 2)) + (((y - size) ** 2) / (2 * sigma ** 2))))
+                kernel[y, x] = ((kernel.shape[0] * kernel.shape[1]) / np.sqrt(2 * np.pi * sigma ** 2)) * np.exp(-(((x - size) ** 2) + ((y - size) ** 2)) / (2 * sigma ** 2))
         return (browse_pixels(array, kernel, size))
