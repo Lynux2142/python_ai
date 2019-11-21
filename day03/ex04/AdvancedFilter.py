@@ -24,7 +24,8 @@ class AdvancedFilter:
     def mean_blur(array, size = 1):
         kernel = np.ones((1 + 2 * size, 1 + 2 * size, 3))
         return (browse_pixels(array, kernel, size))
-    def gaussian_blur(array, size = 1, sigma = 1):
+    def gaussian_blur(array, size = 1):
+        sigma = size / 2
         kernel = np.ones((1 + 2 * size, 1 + 2 * size, 3))
         maxi = 2 * size ** 2
         for y in range(size * 2 + 1):

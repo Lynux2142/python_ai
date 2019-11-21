@@ -7,7 +7,7 @@ def main():
     img = IP()
     array = img.load('./42AI.png')
     img.display(array)
-    img.display(AF.gaussian_blur(array, 10, 5))
+    img.display(AF.mean_blur(array, 2))
 
 if __name__ == '__main__':
     main()
